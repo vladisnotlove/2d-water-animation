@@ -1,2 +1,2 @@
-# 2d-water-animation
+# water-animation-2d
 JS library for canvas
