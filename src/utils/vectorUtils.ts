@@ -1,5 +1,5 @@
-import {isObject} from 'Utils/commonTypeGuards';
-import {TVector} from 'Core/Vector';
+import {isObject} from './commonTypeGuards';
+import {TVector} from '../core/Vector';
 
 export function isVector<T>(value: T | TVector): value is TVector {
   return isObject(value) &&

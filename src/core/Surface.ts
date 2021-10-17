@@ -3,8 +3,8 @@ import {
   isVector,
   multiplyVector,
   normalizeVector, vectorFromPoints,
-} from 'Utils/vectorUtils';
-import {TVector} from 'Core/Vector';
+} from '../utils/vectorUtils';
+import {TVector} from './Vector';
 
 
 type TSurfacePoint = TVector & {

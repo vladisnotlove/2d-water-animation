@@ -3,10 +3,10 @@ import {
   vectorFromPoints,
   multiplyVector,
   normalizeVector,
-} from 'Utils/vectorUtils';
-import {isColor} from 'Utils/colorUtils';
-import {Surface} from 'Core/Surface';
-import {TVector} from 'Core/Vector';
+} from '../utils/vectorUtils';
+import {isColor} from '../utils/colorUtils';
+import {Surface} from './Surface';
+import {TVector} from './Vector';
 
 
 export class WaterAnimation2d {

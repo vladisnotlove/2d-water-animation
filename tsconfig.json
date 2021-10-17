@@ -4,14 +4,9 @@
 		"module": "commonjs",
 		"rootDir": "src/",
 		"outDir": "dist",
-		"sourceMap": true,
+		"sourceMap": false,
 		"declaration": true,
 		"esModuleInterop": true,
-		"baseUrl": "src/",
-		"paths": {
-			"Utils/*": ["utils/*"],
-			"Core/*": ["core/*"]
-		},
 		"noImplicitAny": true
 	},
 	"include": [
