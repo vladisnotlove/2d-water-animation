@@ -1,0 +1,41 @@
+{
+  "name": "water-animation-2d",
+  "version": "0.1.0",
+  "description": "2D animation of water with canvas",
+  "main": "./dist/index.js",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "compile": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladisnotlove/water-animation-2d.git"
+  },
+  "keywords": [
+    "2d",
+    "animation",
+    "water-animation",
+    "water-animation-2d",
+    "canvas"
+  ],
+  "author": "Vladislav Nikolaev",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vladisnotlove/water-animation-2d/issues"
+  },
+  "homepage": "https://github.com/vladisnotlove/water-animation-2d#readme"
+}
