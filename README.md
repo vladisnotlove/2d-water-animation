@@ -51,13 +51,13 @@ setTimeout(() => {
 }, 200)
 ```
 
-##Example projects
+## Example projects
 
 <a href="https://github.com/vladisnotlove/water-animation-2d-example">
 water-animation-2d-example
 </a>
 
-##Author
+## Author
 
 Vladislav Nikolaev, *react frontend developer*
 
