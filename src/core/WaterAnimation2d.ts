@@ -25,6 +25,8 @@ export class WaterAnimation2d {
     #surfaceActivity = 0.986; //  [0.01, 0.99]
     #surfaceMinSpaceBetween = 0.9; //  [0.01, 0.99]
     #surfaceSmoothness = 0.4; //  [0, 0.5]
+    #beforeUpdate: () => void;
+    #afterUpdate: () => void;
 
     constructor(canvas: HTMLCanvasElement) {
       this.#canvas = canvas;
@@ -174,7 +176,32 @@ export class WaterAnimation2d {
         this.#surfaceSmoothness = value;
       }
     }
-
+    
+    /**
+     * Function that run before update
+     */
+    get beforeUpdate() {
+      return this.#beforeUpdate;
+    }
+    set beforeUpdate(value) {
+      if (typeof value === 'function') {
+        this.#beforeUpdate = value;
+      }
+    }
+  
+    /**
+     * Function that run after update
+     */
+    get afterUpdate() {
+      return this.#afterUpdate;
+    }
+    set afterUpdate(value) {
+      if (typeof value === 'function') {
+        this.#afterUpdate = value;
+      }
+    }
+    
+  
     run() {
       this.#runIntervalId = setInterval(() => {
         this.update();
@@ -209,6 +236,8 @@ export class WaterAnimation2d {
     }
 
     update() {
+      this.beforeUpdate();
+      
       // update surface
       this.#surface.update(this.#deltaTime);
 
@@ -283,6 +312,8 @@ export class WaterAnimation2d {
       this.#ctx.closePath();
       this.#ctx.fillStyle = this.#bottomColor;
       this.#ctx.fill();
+  
+      this.afterUpdate();
     }
 
     createSurface() {
