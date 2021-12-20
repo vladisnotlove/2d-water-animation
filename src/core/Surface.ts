@@ -15,14 +15,14 @@ type TSurfacePoint = TVector & {
 }
 
 export class Surface {
-  #points: TSurfacePoint[] = [];
-  #width: number;
-  #spaceBetween: number;
-  #tension = 700;
-  #density = 3;
-  #toughness = 0.2;
-  #activity = 0.986;
-  #minSpaceBetween = 0.9;
+  _points: TSurfacePoint[] = [];
+  _width: number;
+  _spaceBetween: number;
+  _tension = 700;
+  _density = 3;
+  _toughness = 0.2;
+  _activity = 0.986;
+  _minSpaceBetween = 0.9;
   
   constructor(
       width: number,
@@ -32,102 +32,102 @@ export class Surface {
       activity = 0.986,
       minSpaceBetween = 0.9,
   ) {
-    this.#width = width;
-    this.#tension = tension;
-    this.#density = density;
-    this.#toughness = toughness;
-    this.#activity = activity;
-    this.#minSpaceBetween = minSpaceBetween;
+    this._width = width;
+    this._tension = tension;
+    this._density = density;
+    this._toughness = toughness;
+    this._activity = activity;
+    this._minSpaceBetween = minSpaceBetween;
     
     // create points
-    const pointsNum = Math.round(width / 100 * this.#density);
-    this.#spaceBetween = width / pointsNum;
+    const pointsNum = Math.round(width / 100 * this._density);
+    this._spaceBetween = width / pointsNum;
     
     // set force points
-    this.#points = Array.from({length: pointsNum}, (_, id) => {
+    this._points = Array.from({length: pointsNum}, (_, id) => {
       return {
-        x: id * this.#spaceBetween,
+        x: id * this._spaceBetween,
         y: 0,
-        forceNext: {x: this.#tension, y: 0},
-        forcePrev: {x: -this.#tension, y: 0},
+        forceNext: {x: this._tension, y: 0},
+        forcePrev: {x: -this._tension, y: 0},
         externalForce: {x: 0, y: 0},
         velocity: {x: 0, y: 0},
       };
     });
-    this.#points.push({
-      x: this.#width,
+    this._points.push({
+      x: this._width,
       y: 0,
-      forceNext: {x: this.#tension, y: 0},
-      forcePrev: {x: -this.#tension, y: 0},
+      forceNext: {x: this._tension, y: 0},
+      forcePrev: {x: -this._tension, y: 0},
       externalForce: {x: 0, y: 0},
       velocity: {x: 0, y: 0},
     });
   }
   
   get points() {
-    return this.#points;
+    return this._points;
   }
   
   applyForce(x: number, force: TVector) {
-    if (x >= 0 && x <= this.#width && isVector(force)) {
-      const index = this.#points.findIndex((point) => {
-        return Math.abs(point.x - x) < this.#spaceBetween;
+    if (x >= 0 && x <= this._width && isVector(force)) {
+      const index = this._points.findIndex((point) => {
+        return Math.abs(point.x - x) < this._spaceBetween;
       });
       if (index) {
-        this.#points[index].externalForce.x = force.x;
-        this.#points[index].externalForce.y = force.y;
+        this._points[index].externalForce.x = force.x;
+        this._points[index].externalForce.y = force.y;
       }
       return index;
     }
   }
   
   cancelForce(id: number) {
-    if (id >= 0 && id < this.#points.length) {
-      this.#points[id].externalForce.x = 0;
-      this.#points[id].externalForce.y = 0;
+    if (id >= 0 && id < this._points.length) {
+      this._points[id].externalForce.x = 0;
+      this._points[id].externalForce.y = 0;
     }
   }
   
   isUnderSurface(x: number, y: number) {
-    const point = this.#points.find((point) => {
-      return Math.abs(point.x - x) < this.#spaceBetween;
+    const point = this._points.find((point) => {
+      return Math.abs(point.x - x) < this._spaceBetween;
     });
     return point && point.y >= y;
   }
   
   update(deltaTime: number) {
-    const pointsLength = this.#points.length;
+    const pointsLength = this._points.length;
     
     // update tension forces
     for (let i = 0; i < pointsLength; i++) {
       if (i != 0) {
         const forcePrevDirection = normalizeVector(vectorFromPoints(
-            this.#points[i],
-            this.#points[i-1],
+            this._points[i],
+            this._points[i-1],
         ));
-        this.#points[i].forcePrev = multiplyVector(forcePrevDirection, this.#tension);
+        this._points[i].forcePrev = multiplyVector(forcePrevDirection, this._tension);
       }
       if (i != pointsLength-1) {
         const forceNextDirection = normalizeVector(vectorFromPoints(
-            this.#points[i],
-            this.#points[i+1],
+            this._points[i],
+            this._points[i+1],
         ));
-        this.#points[i].forceNext = multiplyVector(forceNextDirection, this.#tension);
+        this._points[i].forceNext = multiplyVector(forceNextDirection, this._tension);
       }
     }
     
     // update velocity and position
     for (let i = 0; i < pointsLength; i++) {
-      const prevPoint = this.#points[i-1];
-      const curPoint = this.#points[i];
-      const nextPoint = this.#points[i+1];
+      const prevPoint = this._points[i-1];
+      const curPoint = this._points[i];
+      const nextPoint = this._points[i+1];
       
       const totalForce = addVectors(
           curPoint.forceNext,
           curPoint.forcePrev,
           curPoint.externalForce,
       );
-      const deltaVelocity = multiplyVector(totalForce, 1 / this.#toughness * deltaTime);
+      const deltaVelocity = multiplyVector(totalForce, 1 / this._toughness * deltaTime);
       
       // update velocity
       if (i != 0 && i != pointsLength-1) curPoint.velocity.x += deltaVelocity.x;
@@ -137,15 +137,15 @@ export class Surface {
       if (i != 0 && i != pointsLength-1) {
         const newX = curPoint.x + curPoint.velocity.x * deltaTime;
         if (
-          newX < nextPoint.x - this.#spaceBetween * this.#minSpaceBetween &&
-          newX > prevPoint.x + this.#spaceBetween * this.#minSpaceBetween
+          newX < nextPoint.x - this._spaceBetween * this._minSpaceBetween &&
+          newX > prevPoint.x + this._spaceBetween * this._minSpaceBetween
         ) curPoint.x = newX;
       }
       curPoint.y += curPoint.velocity.y * deltaTime;
       
       // decrease velocity depending on activity
-      curPoint.velocity.x *= this.#activity;
-      curPoint.velocity.y *= this.#activity;
+      curPoint.velocity.x *= this._activity;
+      curPoint.velocity.y *= this._activity;
       
       // zero velocity if it's small enough
       if (getVectorLength(curPoint.velocity) < 0.01) {
@@ -155,10 +155,10 @@ export class Surface {
     }
     
     // balance y
-    const sumY = this.#points.reduce((sum, point) => sum + point.y, 0);
-    const averageY = sumY / this.#points.length;
+    const sumY = this._points.reduce((sum, point) => sum + point.y, 0);
+    const averageY = sumY / this._points.length;
     
-    this.#points.forEach((point) => {
+    this._points.forEach((point) => {
       point.y -= averageY;
     });
   }

@@ -10,53 +10,53 @@ import {TVector} from './Vector';
 
 
 export class WaterAnimation2d {
-    #canvas: HTMLCanvasElement;
-    #ctx: CanvasRenderingContext2D;
-    #surface: Surface;
-    #runIntervalId: number | null;
+    _canvas: HTMLCanvasElement;
+    _ctx: CanvasRenderingContext2D;
+    _surface: Surface;
+    _runIntervalId: number | null;
 
-    #upperColor = '#ffffff';
-    #bottomColor = '#3366ff';
+    _upperColor = '#ffffff';
+    _bottomColor = '#3366ff';
     // Permitted values:
-    #deltaTime = 0.02; //  [0.01, 1] seconds
-    #surfaceTension = 700; //  [1, 100 000]
-    #surfaceDensity = 3; //  [1, 50] points per 100 pixels
-    #surfaceToughness = 0.2; //  [0.01, 1]
-    #surfaceActivity = 0.986; //  [0.01, 0.99]
-    #surfaceMinSpaceBetween = 0.9; //  [0.01, 0.99]
-    #surfaceSmoothness = 0.4; //  [0, 0.5]
-    #beforeUpdate: () => void;
-    #afterUpdate: () => void;
+    _deltaTime = 0.02; //  [0.01, 1] seconds
+    _surfaceTension = 700; //  [1, 100 000]
+    _surfaceDensity = 3; //  [1, 50] points per 100 pixels
+    _surfaceToughness = 0.2; //  [0.01, 1]
+    _surfaceActivity = 0.986; //  [0.01, 0.99]
+    _surfaceMinSpaceBetween = 0.9; //  [0.01, 0.99]
+    _surfaceSmoothness = 0.4; //  [0, 0.5]
+    _beforeUpdate: () => void;
+    _afterUpdate: () => void;
 
     constructor(canvas: HTMLCanvasElement) {
-      this.#canvas = canvas;
-      this.#ctx = canvas.getContext('2d');
+      this._canvas = canvas;
+      this._ctx = canvas.getContext('2d');
       this.createSurface();
     }
 
     /**
      * Color of canvas upper part<br />
-     * default: #3366ff
+     * default: _3366ff
      */
     get upperColor() {
-      return this.#upperColor;
+      return this._upperColor;
     }
     set upperColor(value) {
       if (isColor(value)) {
-        this.#upperColor = value;
+        this._upperColor = value;
       }
     }
 
     /**
      * Color of canvas bottom part<br />
-     * default: #ffffff
+     * default: _ffffff
      */
     get bottomColor() {
-      return this.#bottomColor;
+      return this._bottomColor;
     }
     set bottomColor(value) {
       if (isColor(value)) {
-        this.#bottomColor = value;
+        this._bottomColor = value;
       }
     }
 
@@ -66,13 +66,13 @@ export class WaterAnimation2d {
      * default: 0.02
      */
     get deltaTime() {
-      return this.#deltaTime;
+      return this._deltaTime;
     }
     set deltaTime(value) {
       if (Number.isFinite(value)) {
         if (value < 0.01) value = 0.01;
         if (value > 1) value = 1;
-        this.#deltaTime = value;
+        this._deltaTime = value;
       }
     }
 
@@ -82,13 +82,13 @@ export class WaterAnimation2d {
      * default: 700
      */
     get surfaceTension() {
-      return this.#surfaceTension;
+      return this._surfaceTension;
     }
     set surfaceTension(value) {
       if (Number.isFinite(value)) {
         if (value < 0) value = 0;
         if (value > 100000) value = 100000;
-        this.#surfaceTension = value;
+        this._surfaceTension = value;
         this.createSurface();
       }
     }
@@ -99,13 +99,13 @@ export class WaterAnimation2d {
      * default: 0.2
      */
     get surfaceDensity() {
-      return this.#surfaceDensity;
+      return this._surfaceDensity;
     }
     set surfaceDensity(value) {
       if (Number.isInteger(value)) {
         if (value < 1) value = 1;
         if (value > 50) value = 50;
-        this.#surfaceDensity = value;
+        this._surfaceDensity = value;
         this.createSurface();
       }
     }
@@ -116,13 +116,13 @@ export class WaterAnimation2d {
      * default: 3
      */
     get surfaceToughness() {
-      return this.#surfaceToughness;
+      return this._surfaceToughness;
     }
     set surfaceToughness(value) {
       if (Number.isFinite(value)) {
         if (value < 0.01) value = 0.01;
         if (value > 1) value = 1;
-        this.#surfaceToughness = value;
+        this._surfaceToughness = value;
         this.createSurface();
       }
     }
@@ -133,13 +133,13 @@ export class WaterAnimation2d {
      * default: 0.986
      */
     get surfaceActivity() {
-      return this.#surfaceActivity;
+      return this._surfaceActivity;
     }
     set surfaceActivity(value) {
       if (Number.isFinite(value)) {
         if (value < 0.01) value = 0.01;
         if (value > 0.99) value = 0.99;
-        this.#surfaceActivity = value;
+        this._surfaceActivity = value;
         this.createSurface();
       }
     }
@@ -150,13 +150,13 @@ export class WaterAnimation2d {
      * default: 0.9
      */
     get surfaceMinSpaceBetween() {
-      return this.#surfaceMinSpaceBetween;
+      return this._surfaceMinSpaceBetween;
     }
     set surfaceMinSpaceBetween(value) {
       if (Number.isFinite(value)) {
         if (value < 0.01) value = 0.01;
         if (value > 1) value = 1;
-        this.#surfaceMinSpaceBetween = value;
+        this._surfaceMinSpaceBetween = value;
         this.createSurface();
       }
     }
@@ -167,13 +167,13 @@ export class WaterAnimation2d {
      * default: 0.9
      */
     get surfaceSmoothness() {
-      return this.#surfaceSmoothness;
+      return this._surfaceSmoothness;
     }
     set surfaceSmoothness(value) {
       if (Number.isFinite(value)) {
         if (value < 0) value = 0;
         if (value > 0.5) value = 0.5;
-        this.#surfaceSmoothness = value;
+        this._surfaceSmoothness = value;
       }
     }
     
@@ -181,11 +181,11 @@ export class WaterAnimation2d {
      * Function that run before update
      */
     get beforeUpdate() {
-      return this.#beforeUpdate;
+      return this._beforeUpdate;
     }
     set beforeUpdate(value) {
       if (typeof value === 'function') {
-        this.#beforeUpdate = value;
+        this._beforeUpdate = value;
       }
     }
   
@@ -193,44 +193,44 @@ export class WaterAnimation2d {
      * Function that run after update
      */
     get afterUpdate() {
-      return this.#afterUpdate;
+      return this._afterUpdate;
     }
     set afterUpdate(value) {
       if (typeof value === 'function') {
-        this.#afterUpdate = value;
+        this._afterUpdate = value;
       }
     }
     
   
     run() {
-      this.#runIntervalId = setInterval(() => {
+      this._runIntervalId = setInterval(() => {
         this.update();
       }, Math.round(this.deltaTime * 1000));
     }
 
     stop() {
-      clearInterval(this.#runIntervalId);
-      this.#runIntervalId = null;
+      clearInterval(this._runIntervalId);
+      this._runIntervalId = null;
     }
 
     isRun() {
-      return this.#runIntervalId != null;
+      return this._runIntervalId != null;
     }
 
     applyForce(x: number, force: TVector) {
       if (Number.isFinite(x) && isVector(force)) {
         force.y *= -1;
-        return this.#surface.applyForce(x, force);
+        return this._surface.applyForce(x, force);
       }
     }
 
     cancelForce(id: number) {
-      this.#surface.cancelForce(id);
+      this._surface.cancelForce(id);
     }
 
     isUnderSurface(x: number, y: number) {
       if (Number.isFinite(x) && Number.isFinite(y)) {
-        return this.#surface.isUnderSurface(x, this.#canvas.height * 0.5 - y);
+        return this._surface.isUnderSurface(x, this._canvas.height * 0.5 - y);
       }
       return false;
     }
@@ -239,31 +239,31 @@ export class WaterAnimation2d {
       this.beforeUpdate();
       
       // update surface
-      this.#surface.update(this.#deltaTime);
+      this._surface.update(this._deltaTime);
 
       // draw background
-      this.#ctx.fillStyle = this.#upperColor;
-      this.#ctx.fillRect(0, 0, this.#canvas.width, this.#canvas.height);
+      this._ctx.fillStyle = this._upperColor;
+      this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
       // draw surface
-      this.#ctx.beginPath();
-      this.#ctx.moveTo(
-          this.#surface.points[0].x,
-          this.#canvas.height * 0.5 - this.#surface.points[0].y,
+      this._ctx.beginPath();
+      this._ctx.moveTo(
+          this._surface.points[0].x,
+          this._canvas.height * 0.5 - this._surface.points[0].y,
       );
       let cp = {
         x: 0,
         y: 0,
       };
       let prevCP = {
-        x: this.#surface.points[1].x * this.#surfaceSmoothness,
-        y: this.#canvas.height * 0.5 - this.#surface.points[0].y,
+        x: this._surface.points[1].x * this._surfaceSmoothness,
+        y: this._canvas.height * 0.5 - this._surface.points[0].y,
       };
 
-      for (let i = 1; i < this.#surface.points.length-1; i++) {
-        const prevPoint = this.#surface.points[i-1];
-        const curPoint = this.#surface.points[i];
-        const nextPoint = this.#surface.points[i+1];
+      for (let i = 1; i < this._surface.points.length-1; i++) {
+        const prevPoint = this._surface.points[i-1];
+        const curPoint = this._surface.points[i];
+        const nextPoint = this._surface.points[i+1];
 
         const prevXDist = curPoint.x - prevPoint.x;
         const nextXDist = nextPoint.x - curPoint.x;
@@ -272,53 +272,53 @@ export class WaterAnimation2d {
             {x: prevPoint.x, y: -prevPoint.y},
         ));
 
-        cp = multiplyVector(cpDir, prevXDist * this.#surfaceSmoothness);
+        cp = multiplyVector(cpDir, prevXDist * this._surfaceSmoothness);
         cp.x += curPoint.x;
-        cp.y += this.#canvas.height * 0.5 - curPoint.y;
+        cp.y += this._canvas.height * 0.5 - curPoint.y;
 
-        this.#ctx.bezierCurveTo(
+        this._ctx.bezierCurveTo(
             prevCP.x,
             prevCP.y,
             cp.x,
             cp.y,
             curPoint.x,
-            this.#canvas.height * 0.5 - curPoint.y,
+            this._canvas.height * 0.5 - curPoint.y,
         );
 
-        prevCP = multiplyVector(cpDir, -nextXDist * this.#surfaceSmoothness);
+        prevCP = multiplyVector(cpDir, -nextXDist * this._surfaceSmoothness);
         prevCP.x += curPoint.x;
-        prevCP.y += this.#canvas.height * 0.5 - curPoint.y;
+        prevCP.y += this._canvas.height * 0.5 - curPoint.y;
       }
 
-      const curPoint = this.#surface.points[this.#surface.points.length-1];
-      const prevPoint = this.#surface.points[this.#surface.points.length-2];
+      const curPoint = this._surface.points[this._surface.points.length-1];
+      const prevPoint = this._surface.points[this._surface.points.length-2];
 
       cp = {
-        x: curPoint.x + (curPoint.x - prevPoint.x) * this.#surfaceSmoothness,
-        y: this.#canvas.height * 0.5 - curPoint.y,
+        x: curPoint.x + (curPoint.x - prevPoint.x) * this._surfaceSmoothness,
+        y: this._canvas.height * 0.5 - curPoint.y,
       };
 
-      this.#ctx.bezierCurveTo(
+      this._ctx.bezierCurveTo(
           prevCP.x,
           prevCP.y,
           cp.x,
           cp.y,
           curPoint.x,
-          this.#canvas.height * 0.5 - curPoint.y);
+          this._canvas.height * 0.5 - curPoint.y);
 
       // complete and color surface
-      this.#ctx.lineTo(this.#canvas.width, this.#canvas.height);
-      this.#ctx.lineTo(0, this.#canvas.height);
-      this.#ctx.closePath();
-      this.#ctx.fillStyle = this.#bottomColor;
-      this.#ctx.fill();
+      this._ctx.lineTo(this._canvas.width, this._canvas.height);
+      this._ctx.lineTo(0, this._canvas.height);
+      this._ctx.closePath();
+      this._ctx.fillStyle = this._bottomColor;
+      this._ctx.fill();
   
       this.afterUpdate();
     }
 
     createSurface() {
-      this.#surface = new Surface(
-          this.#canvas.width,
+      this._surface = new Surface(
+          this._canvas.width,
           this.surfaceTension,
           this.surfaceDensity,
           this.surfaceToughness,
