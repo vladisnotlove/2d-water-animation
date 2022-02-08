@@ -8,9 +8,11 @@
 		"declaration": true,
 		"esModuleInterop": true,
 		"noImplicitAny": true,
-		"isolatedModules": true
+		"isolatedModules": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true
 	},
 	"include": [
 		"src"
-	],
+	]
 }

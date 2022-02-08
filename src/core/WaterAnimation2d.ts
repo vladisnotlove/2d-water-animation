@@ -11,9 +11,9 @@ import {TVector} from './Vector';
 
 export class WaterAnimation2d {
     _canvas: HTMLCanvasElement;
-    _ctx: CanvasRenderingContext2D;
-    _surface: Surface;
-    _runIntervalId: number | null;
+    _ctx: CanvasRenderingContext2D | null;
+    _surface: Surface | undefined;
+    _runIntervalId: number | null = null;
 
     _upperColor = '#ffffff';
     _bottomColor = '#3366ff';
@@ -25,8 +25,8 @@ export class WaterAnimation2d {
     _surfaceActivity = 0.986; //  [0.01, 0.99]
     _surfaceMinSpaceBetween = 0.9; //  [0.01, 0.99]
     _surfaceSmoothness = 0.4; //  [0, 0.5]
-    _beforeUpdate: () => void;
-    _afterUpdate: () => void;
+    _beforeUpdate?: (() => void) = undefined;
+    _afterUpdate?: (() => void) = undefined;
 
     constructor(canvas: HTMLCanvasElement) {
       this._canvas = canvas;
@@ -209,7 +209,7 @@ export class WaterAnimation2d {
     }
 
     stop() {
-      clearInterval(this._runIntervalId);
+      if (this._runIntervalId !== null) clearInterval(this._runIntervalId);
       this._runIntervalId = null;
     }
 
@@ -220,23 +220,26 @@ export class WaterAnimation2d {
     applyForce(x: number, force: TVector) {
       if (Number.isFinite(x) && isVector(force)) {
         force.y *= -1;
-        return this._surface.applyForce(x, force);
+        return this._surface?.applyForce(x, force);
       }
     }
 
     cancelForce(id: number) {
-      this._surface.cancelForce(id);
+      this._surface?.cancelForce(id);
     }
 
     isUnderSurface(x: number, y: number) {
       if (Number.isFinite(x) && Number.isFinite(y)) {
-        return this._surface.isUnderSurface(x, this._canvas.height * 0.5 - y);
+        return this._surface?.isUnderSurface(x, this._canvas.height * 0.5 - y);
       }
       return false;
     }
 
     update() {
-      this.beforeUpdate();
+      if (!this._ctx) return;
+      if (!this._surface) return;
+      
+      if (this.beforeUpdate) this.beforeUpdate();
       
       // update surface
       this._surface.update(this._deltaTime);
@@ -313,7 +316,7 @@ export class WaterAnimation2d {
       this._ctx.fillStyle = this._bottomColor;
       this._ctx.fill();
   
-      this.afterUpdate();
+      if (this.afterUpdate) this.afterUpdate();
     }
 
     createSurface() {
