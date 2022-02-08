@@ -1,6 +1,6 @@
 {
   "name": "water-animation-2d",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "2D animation of water with canvas",
   "main": "./dist/index.js",
   "files": [
@@ -13,6 +13,10 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "@babel/cli": "^7.17.0",
+    "@babel/core": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
@@ -20,7 +24,10 @@
     "typescript": "^4.4.3"
   },
   "scripts": {
-    "compile": "tsc"
+    "type-check": "tsc --noEmit",
+    "compile": "npm run compile:types && npm run compile:js",
+    "compile:types": "tsc --emitDeclarationOnly",
+    "compile:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline"
   },
   "repository": {
     "type": "git",
