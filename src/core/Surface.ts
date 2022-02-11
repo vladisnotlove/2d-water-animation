@@ -73,7 +73,7 @@ export class Surface {
       const index = this._points.findIndex((point) => {
         return Math.abs(point.x - x) < this._spaceBetween;
       });
-      if (index) {
+      if (index !== -1) {
         this._points[index].externalForce.x = force.x;
         this._points[index].externalForce.y = force.y;
       }
