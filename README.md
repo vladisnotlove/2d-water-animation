@@ -4,6 +4,12 @@ Library for adding simple 2d water animation by a canvas
 
 <img src="https://drive.google.com/uc?export=view&id=1OymyLfbJfDvWJoJjXwOTxC6Wy31ITlS_">
 
+## Install
+
+```console
+npm i water-animation-2d
+```
+
 ## How to use
 
 1. Add canvas on html
@@ -61,7 +67,7 @@ water-animation-2d-example
 
 Vladislav Nikolaev, *react frontend developer*
 
-vlad.nikolaev@gmail.com<br/>
+vlad.nikolaev.p@gmail.com<br/>
 <a href="https://t.me/vladisnotlove">telegram</a> |
 <a href="https://gitlab.com/vladisnotlove">gitlab</a> |
 <a href="https://github.com/vladisnotlove">github</a>
