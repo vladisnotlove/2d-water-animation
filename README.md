@@ -67,7 +67,7 @@ water-animation-2d-example
 
 Vladislav Nikolaev, *react frontend developer*
 
-vlad.nikolaev.p@gmail.com<br/>
+vladisnotlove@gmail.com<br/>
 <a href="https://t.me/vladisnotlove">telegram</a> |
 <a href="https://gitlab.com/vladisnotlove">gitlab</a> |
 <a href="https://github.com/vladisnotlove">github</a>
